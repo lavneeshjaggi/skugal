@@ -1,0 +1,80 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/lavneesh/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/lavneesh",
+        "index": "apps/lavneesh/src/index.html",
+        "baseHref": "/",
+        "main": "apps/lavneesh/src/main.tsx",
+        "polyfills": "apps/lavneesh/src/polyfills.ts",
+        "tsConfig": "apps/lavneesh/tsconfig.app.json",
+        "assets": ["apps/lavneesh/src/favicon.ico", "apps/lavneesh/src/assets"],
+        "styles": ["apps/lavneesh/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/lavneesh/src/environments/environment.ts",
+              "with": "apps/lavneesh/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "lavneesh:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "lavneesh:build:development"
+        },
+        "production": {
+          "buildTarget": "lavneesh:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/lavneesh/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/lavneesh"],
+      "options": {
+        "jestConfig": "apps/lavneesh/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
